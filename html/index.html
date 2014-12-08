@@ -1,0 +1,90 @@
+<html debug="true" lang='es'>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Juan Manuel Rodríguez Trillo - Proyecto - Curso JS </title>
+		<script type='application/javascript' src="/js/peticiones_JQ.js"></script>
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	</head>
+	<body onload="init()">
+		<div id="inicio">
+			<H1>Página Principal</H1>
+			<p><input id="buttonClts" type="submit" value="Menú Clientes" onClick="menuClientes()"></p>
+			<br>
+			<p><input id="buttonProds" type="submit" value="Lista de Productos" onClick="listaProductos()"></p>
+			<br><br>
+			<p><a href="https://github.com/WanManolo/proyecto-CJS-compras" target="_blank()">Repositorio personal del proyecto en GitHub.</a></p>
+		</div>
+		<div id="menuCliente">
+			<h1>Lista de Clientes Registrados</h1>
+			<table id="myTableClientes" border=1>
+			</table>
+			<div id="panelCliente">
+				<table>
+					<tr>
+						<td>
+							<input id="txtCliente" type="text" value="id">
+						</td>
+						<td>
+							<input id="buttonVerCliente" type="submit" value="Ver Cliente" onClick="verCliente()">
+						</td>
+						<td>
+							<input id="buttonModCliente" type="submit" value="Modificar Cliente" onClick="modFormCliente()">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input id="buttonNewCliente" type="submit" value="Registrar Cliente Nuevo" onClick="newFormCliente()">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="newCliente">
+				<table>
+					<tr>
+						<td>ID: <input id="newTxtId" type="text" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>Nombre: <input id="newTxtNombre" type="text" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>E-Mail: <input id="newTxtMail" type="text" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input id="buttonRegCliente" type="submit" value="Registrar" onClick="newCliente()">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="postCliente">
+				<table>
+					<tr>
+						<td>Nombre: <input id="modTxtNombre" type="text" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>E-Mail: <input id="modTxtMail" type="text" value="">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input id="buttonModClientePost" type="submit" value="Guardar Cambios" onClick="modCliente()">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p><input id="goBack" type="submit" value="Volver" onClick="init()"></p>
+		</div>
+		<div id="menuProducto">
+			<h1>Lista de Productos Disponibles</h1>
+			<table id="myTableProductos" border=1>
+			</table>
+			<p><input id="goBack" type="submit" value="Volver" onClick="init()"></p>
+		</div>
+		<div id="resultado">
+		</div>
+	</body>
+</html>
