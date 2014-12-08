@@ -11,122 +11,302 @@
 
 function init() {
 	$(document).ready(function() {
-		$('#menuCliente').hide();
-		$('#menuProducto').hide();
-		$('#newCliente').hide();
-		$('#postCliente').hide();
-		$('#resultado').hide();
+		$('#menuJ').hide();
+		$('#menuE').hide();
+		$('#resultado').text('');
+		$('#log').hide();
 		$('#inicio').show();
 	});
 }
 
-// Petición de los clientes con JQuery
-function menuClientes() {
+/*
+ * LISTA
+ * 
+ * 		<div id="page">
+ * 			<div id="inicio">
+ * 				<p><input id="submitMJ" type="submit" 
+ * 				<p><input id="submitME" type="submit" 
+ * 			<div id="menuJ">
+ * 				<table id="tablaJ1"
+ * 				<div id="panelJ">
+ * 								<input id="txtJid" type="text" 
+ * 				<div id="panelJPost">
+ * 						<tr id="trIdJ">
+ * 									<input id="radio_Portero" type="radio" name="pos" 
+ * 									<input id="radio_Defensa" type="radio" name="pos" 
+ * 									<input id="radio_Centro" type="radio" name="pos" 
+ * 									<input id="radio_Delantero" type="radio" name="pos" 
+ * 								<select id="selE" name="selE">
+ * 							<td id="subFormModJ">
+ * 							<td id="subFormNewJ">
+ * 
+ * */
+
+// Petición de los jugadores con JQuery
+function menuJugador() {
 	$(document).ready(function() {
-		$('#panelCliente').show();
-		$.get('/cliente', function(data) {
+		// GET Jugadores
+		$.get('/Jugador', function(data) {
 			// Creamos la tabla con los contenidos
+			var tabla = "<tBody>";
+			// Para cada jugador en el JSON
 			var keys = Object.keys(data);
-			var txt = "<tBody>";
-			for (var i = 0; i<keys.length; i++) {
-				txt += "<tr><td>ID: "+keys[i]+"</td><td>Nombre: "+data[keys[i]].nombre+"</td><td>E-Mail: "+data[keys[i]].mail+"</td></tr>";
+			for (var i=0; i<keys.length; i++) {
+				tabla += "<tr><td> ID: "+keys[i]+"</td><td> Nombre: "+data[keys[i]].name+"</td><td> Posición: "+data[keys[i]].pos+"</td><td> Equipo: "+data[keys[i]].team+"</td></tr>";
 			}
-			txt += "</tBody>";
+			tabla += "</tBody>";
 			// Establecemos el código de la tabla
-			$('#myTableClientes').html(txt);
-			// Ocultamos el menú de inicio
-			$('#inicio').fadeToggle('fast');
-			// Mostramos el resultado
-			$('#menuCliente').fadeToggle('fast');
-			});
+			$('#tablaJ1').html(tabla);
+			// Esquema final de los divs
+		$('#inicio').hide();
+		$('#panelJPost').hide();
+		$('#panelJ').show();
+		$('#menuJ').fadeToggle('slow');
+		$('#log').show();
 		});
-}
-
-// Petición para obtener un cliente en concreto
-function verCliente() {
-	var id = $('#txtCliente').val();
-	$.get('/cliente/'+id, function(data) {
-		$('#menuCliente').fadeToggle('fast');
-		// Creamos la tabla con los contenidos
-		var txt = "<table border=1><tBody>";
-		txt += "<tr><td>ID: "+id+"</td><td>Nombre: "+data.nombre+"</td><td>E-Mail: "+data.mail+"</td></tr>";
-		txt += "</tBody></table>";
-		$('#resultado').html(txt);
-		$('#resultado').fadeToggle('fast');
+		
+		
 	});
 }
 
-// Petición de los productos con AJAX de forma explícita y JQuery
-// para manejar el DOM
-function listaProductos() {
-	// Creación de la petición XMLHttp
-	var request = new XMLHttpRequest();
-	// Se realiza la petición GET a la url
-	request.open('GET', '/producto', false);
-	// Se envía la respuesta
-	request.send(request.responsetext);
-	// Si todo ha ido bien
-	if (request.readyState == 4) {
-		if (request.status == 200) {
-			// Parseamos el JSON recibido
-			var json = JSON.parse(request.responseText);
+// Petición de los equipos con JQuery
+function menuEquipo() {
+	$(document).ready(function() {
+		// GET Equipos
+		$.get('/Equipo', function(data) {
 			// Creamos la tabla con los contenidos
-			var keys = Object.keys(json);
-			var txt = "<tBody>";
-			for (var i = 0; i<keys.length; i++) {
-				txt += "<tr><td>ID: "+keys[i]+"</td><td>Precio: "+json[keys[i]].precio+"</td><td>Stock: "+json[keys[i]].stock+"</td></tr>";
+			var tabla = "<tBody>";
+			// Para cada Equipo en el JSON
+			var keys = Object.keys(data);
+			for (var i=0; i<keys.length; i++) {
+				tabla += "<tr><td> ID: "+keys[i]+"</td><td> Nombre: "+data[keys[i]].name+"</td><td> Jugadores: "+data[keys[i]].nj+"</td></tr>";
 			}
-			txt += "</tBody>";
+			tabla += "</tBody>";
 			// Establecemos el código de la tabla
-			$('#myTableProductos').html(txt);
-			// Ocultamos el menú de inicio
-			$('#inicio').fadeToggle('fast');
-			// Mostramos el resultado
-			$('#menuProducto').fadeToggle('fast');
-		}
-	}
+			$('#tablaE1').html(tabla);
+		});
+		
+		// Esquema final de los divs
+		$('#inicio').hide();
+		$('#panelEPost').hide();
+		$('#panelE').show();
+		$('#menuE').fadeToggle('slow');
+		$('#log').show();
+	});
 }
 
-function newFormCliente() {
-	$('#panelCliente').fadeToggle('fast');
-	$('#newCliente').fadeToggle('fast');
+// Petición de los Equipos con AJAX (XMLHttpRequest) y JQuery DOM
+function menuEquipoAJAX() {
+	$(document).ready(function() {
+		// Creación de la petición XMLHttp
+		var oXHR = new XMLHttpRequest();
+		oXHR.open("GET", "/Equipo", true);
+		oXHR.onreadystatechange = function (oEvent) {
+			if (oXHR.readyState === 4) {
+				if (oXHR.status === 200) {
+					// Parseamos el JSON recibido
+					var data = JSON.parse(request.responseText);
+					// Creamos la tabla con los contenidos
+					var tabla = "<tBody>";
+					// Para cada Equipo en el JSON
+					var keys = Object.keys(data);
+					for (var i=0; i<keys.length; i++) {
+						tabla += "<tr><td> ID: "+keys[i]+"</td><td> Nombre: "+data[keys[i]].name+"</td><td> Jugadores: "+data[keys[i]].nj+"</td></tr>";
+					}
+					tabla += "</tBody>";
+					// Establecemos el código de la tabla
+					$('#tablaE1').html(tabla);
+				}
+				else {
+					console.log("Error", oXHR.statusText);
+				}
+			}
+		};
+		// Se envía la respuesta
+		oXHR.send(request.responseText);
+		
+		// Esquema final de los divs
+		$('#inicio').hide();
+		$('#panelEPost').hide();
+		$('#panelE').show();
+		$('#menuE').fadeToggle('slow');
+		$('#log').show();
+	});
 }
 
-// Petición PUT de un nuevo cliente
-function newCliente() {
-	// Obtenemos los parámetros de los inputs
-	var id = $('#newTxtId').val();
-	var nom = $('#newTxtNombre').val();
-	var mail = $('#newTxtMail').val();
-	// Creamos la petición con JQuery
+// Petición para obtener un jugador en concreto
+function formVerJ() {
+	$(document).ready(function() {
+		var id = $('#txtJid').val();
+		$.get('/Jugador/'+id, function(data) {
+			// Creamos la tabla con los contenidos
+			var tabla = "ID: "+id+"    Nombre: "+data.name+"       Posición: "+data.pos+"     Equipo: "+data.team;
+			$('#resultado').text(tabla);
+		});
+	});
+}
+
+// Petición para obtener un equipo en concreto
+function formVerE() {
+	$(document).ready(function() {
+		var id = $('#txtEid').val();
+		$.get('/Equipo/'+id, function(data) {
+			// Creamos la tabla con los contenidos
+			var tabla = "ID: "+id+"   Nombre: "+data.name+"    Jugadores: "+data.nj;
+			$('#resultado').text(tabla);
+		});
+	});
+}
+
+// Cambio al formulario para Modificar un Jugador
+function formModJ() {
+	$(document).ready(function() {
+		// Creamos la lista de equipos del selector
+		$.get('/Equipo', function(data) {
+			// Eliminamos las opciones previas
+			$('#selE').find('option').remove().end();
+			// Para cada Equipo lo introducimos como opcion
+			var keys = Object.keys(data);
+			for (var i=0; i<keys.length; i++) {
+				$('#selE').append($('<option>', {
+					value: keys[i],
+					text: data[keys[i]].name
+				}));
+			}
+		});
+		
+		$('#submitDoModJ').show();
+		$('#submitDoNewJ').hide();
+		$('#panelJ').hide();
+		$('#resultado').text('');
+		$('#panelJPost').fadeToggle('slow');
+		$('#log').show();
+	});
+}
+
+// Cambio al formulario para Crear un Jugador
+function formNewJ() {
+	$(document).ready(function() {
+		// Creamos la lista de equipos del selector
+		$.get('/Equipo', function(data) {
+			// Eliminamos las opciones previas
+			$('#selE').find('option').remove().end();
+			// Para cada Equipo lo introducimos como opcion
+			var keys = Object.keys(data);
+			for (var i=0; i<keys.length; i++) {
+				$('#selE').append($('<option>', {
+					value: keys[i],
+					text: data[keys[i]].name
+				}));
+			}
+		});
+		
+		$('#submitDoModJ').hide();
+		$('#submitDoNewJ').show();
+		$('#panelJ').hide();
+		$('#resultado').text('');
+		$('#panelJPost').fadeToggle('slow');
+		$('#log').show();
+	});
+}
+
+// Cambio al formulario para Modificar un Equipo
+function formModE() {
+	$(document).ready(function() {
+		$('#submitDoModE').show();
+		$('#submitDoNewE').hide();
+		$('#panelE').hide();
+		$('#resultado').text('');
+		$('#panelEPost').fadeToggle('slow');
+		$('#log').show();
+	});
+}
+
+// Cambio al formulario para Crear un Equipo
+function formNewE() {
+	$(document).ready(function() {
+		$('#submitDoModE').hide();
+		$('#submitDoNewE').show();
+		$('#panelE').hide();
+		$('#resultado').text('');
+		$('#panelEPost').fadeToggle('slow');
+		$('#log').show();
+	});
+}
+
+// Eliminar un Jugador
+function delJugador() {
+	// Parámetros de los inputs
+	var id = $('#txtJid').val();
+	// Petición desde JQuery
+	$.post('/jugador/del/'+id, function(response) {
+		alert(response);
+	});
+}
+
+// Eliminar un Equipo
+function delEquipo() {
+	// Parámetros de los inputs
+	var id = $('#txtEid').val();
+	// Petición desde JQuery
+	$.post('/equipo/del/'+id, function(response) {
+		alert(response);
+	});
+}
+
+// Petición PUT de un nuevo jugador
+function doNewJ() {
+	// Parámetros de los inputs
+	var id = $('#txtJid').val();
+	var nom = $('#txtJnombre').val();
+	var pos = $('input:radio:checked').val();
+	var eq = $("#selE").val();
+	// Petición desde JQuery
 	$.ajax( {
-		url: '/cliente/new/'+id+'/'+nom+'/'+mail,
+		url: '/jugador/'+id+'/'+nom+'/'+pos+'/'+eq,
 		type: 'PUT',
-		success: function(result) {
-			$('#resultado').html(result);
-			$('#resultado').fadeToggle('fast');
+		success: function(response) {
+			$('#resultado').text(response);
 			}
 	});
 }
 
-function modFormCliente() {
-	$('#panelCliente').fadeToggle('fast');
-	$('#postCliente').fadeToggle('fast');
-}
-
-// Petición POST de un cliente
-function modCliente() {
-	// Obtenemos los parámetros de los inputs
-	var id = $('#txtCliente').val();
-	var nom = $('#modTxtNombre').val();
-	var mail = $('#modTxtMail').val();
-	// Creamos la petición con JQuery
+// Petición PUT de un nuevo equipo
+function doNewE() {
+	// Parámetros de los inputs
+	var id = $('#txtEid').val();
+	var nom = $('#txtEnombre').val();
+	// Petición desde JQuery
 	$.ajax( {
-		url: '/cliente/'+id+'/'+nom+'/'+mail,
-		type: 'POST',
-		success: function(result) {
-			$('#resultado').html(result);
-			$('#resultado').fadeToggle('fast');
+		url: '/equipo/'+id+'/'+nom,
+		type: 'PUT',
+		success: function(response) {
+			$('#resultado').text(response);
 			}
 	});
 }
+
+// Petición POST de un jugador
+function doModJ() {
+	// Parámetros de los inputs
+	var id = $('#txtJid').val();
+	var nom = $('#txtJnombre').val();
+	var pos = $('input:radio:checked').val();
+	var eq = $("#selE").val();
+	// Petición desde JQuery
+	$.post('/jugador/'+id+'/'+nom+'/'+pos+'/'+eq, function(response) {
+		$('#resultado').text(response);
+	});
+}
+
+// Petición POST de un equipo
+function doModE() {
+	// Parámetros de los inputs
+	var id = $('#txtEid').val();
+	var nom = $('#txtEnombre').val();
+	// Petición desde JQuery
+	$.post('/equipo/'+id+'/'+nom, function(response) {
+		$('#resultado').text(response);
+	});
+}
+
