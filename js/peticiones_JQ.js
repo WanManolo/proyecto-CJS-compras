@@ -19,29 +19,6 @@ function init() {
 	});
 }
 
-/*
- * LISTA
- * 
- * 		<div id="page">
- * 			<div id="inicio">
- * 				<p><input id="submitMJ" type="submit" 
- * 				<p><input id="submitME" type="submit" 
- * 			<div id="menuJ">
- * 				<table id="tablaJ1"
- * 				<div id="panelJ">
- * 								<input id="txtJid" type="text" 
- * 				<div id="panelJPost">
- * 						<tr id="trIdJ">
- * 									<input id="radio_Portero" type="radio" name="pos" 
- * 									<input id="radio_Defensa" type="radio" name="pos" 
- * 									<input id="radio_Centro" type="radio" name="pos" 
- * 									<input id="radio_Delantero" type="radio" name="pos" 
- * 								<select id="selE" name="selE">
- * 							<td id="subFormModJ">
- * 							<td id="subFormNewJ">
- * 
- * */
-
 // Petición de los jugadores con JQuery
 function menuJugador() {
 	$(document).ready(function() {
@@ -64,8 +41,6 @@ function menuJugador() {
 		$('#menuJ').fadeToggle('slow');
 		$('#log').show();
 		});
-		
-		
 	});
 }
 
@@ -174,7 +149,7 @@ function formModJ() {
 				}));
 			}
 		});
-		
+		$('#txtNJid').val($('#txtJid').val());
 		$('#submitDoModJ').show();
 		$('#submitDoNewJ').hide();
 		$('#panelJ').hide();
@@ -200,7 +175,7 @@ function formNewJ() {
 				}));
 			}
 		});
-		
+		$('#txtNJid').val($('#txtJid').val());
 		$('#submitDoModJ').hide();
 		$('#submitDoNewJ').show();
 		$('#panelJ').hide();
@@ -213,6 +188,7 @@ function formNewJ() {
 // Cambio al formulario para Modificar un Equipo
 function formModE() {
 	$(document).ready(function() {
+		$('#txtNEid').val($('#txtEid').val());
 		$('#submitDoModE').show();
 		$('#submitDoNewE').hide();
 		$('#panelE').hide();
@@ -225,6 +201,7 @@ function formModE() {
 // Cambio al formulario para Crear un Equipo
 function formNewE() {
 	$(document).ready(function() {
+		$('#txtNEid').val($('#txtEid').val());
 		$('#submitDoModE').hide();
 		$('#submitDoNewE').show();
 		$('#panelE').hide();
@@ -257,7 +234,7 @@ function delEquipo() {
 // Petición PUT de un nuevo jugador
 function doNewJ() {
 	// Parámetros de los inputs
-	var id = $('#txtJid').val();
+	var id = $('#txtNJid').val();
 	var nom = $('#txtJnombre').val();
 	var pos = $('input:radio:checked').val();
 	var eq = $("#selE").val();
@@ -274,7 +251,7 @@ function doNewJ() {
 // Petición PUT de un nuevo equipo
 function doNewE() {
 	// Parámetros de los inputs
-	var id = $('#txtEid').val();
+	var id = $('#txtNEid').val();
 	var nom = $('#txtEnombre').val();
 	// Petición desde JQuery
 	$.ajax( {
@@ -289,7 +266,7 @@ function doNewE() {
 // Petición POST de un jugador
 function doModJ() {
 	// Parámetros de los inputs
-	var id = $('#txtJid').val();
+	var id = $('#txtNJid').val();
 	var nom = $('#txtJnombre').val();
 	var pos = $('input:radio:checked').val();
 	var eq = $("#selE").val();
@@ -302,7 +279,7 @@ function doModJ() {
 // Petición POST de un equipo
 function doModE() {
 	// Parámetros de los inputs
-	var id = $('#txtEid').val();
+	var id = $('#txtNEid').val();
 	var nom = $('#txtEnombre').val();
 	// Petición desde JQuery
 	$.post('/equipo/'+id+'/'+nom, function(response) {
