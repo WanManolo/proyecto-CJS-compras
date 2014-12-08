@@ -1,0 +1,19 @@
+{
+  "name": "proyecto",
+  "version": "0.0.0",
+  "description": "proyecto-CJS-compras ====================",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "http": ">= 0.0.0",
+    "express" : ">3.0.0rc4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://548624d94382ec882f000189@proyecto-tarea3.rhcloud.com/~/git/proyecto.git/"
+  },
+  "author": "",
+  "license": "ISC"
+}

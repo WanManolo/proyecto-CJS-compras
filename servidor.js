@@ -13,10 +13,11 @@
 
 // Includes
 var express = require('express');
-//~ var fs = require('fs');
+var http = require('http');
 
 // Inicio de express
 var app = express();
+var server = http.createServer(app);
 
 // Inicio del objeto de equipos
 var teams = {
@@ -122,11 +123,14 @@ app.post('/equipo/del/:id', function (req,res) {
 	res.send("Se ha eliminado el equipo: "+req.params.id);
 });
 
-var puerto = 8080;
-var ip = 'http://127.0.0.1';
+//~ var puerto = 8080;
+//~ var ip = 'http://127.0.0.1';
 
-//~ var port = process.env.OPENSHIFT_NODEJS_PORT || 8080 ;
-//~ var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1' ;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080 ;
+var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1' ;
 
-app.listen(puerto);
-console.log('Server running at '+ip+':'+puerto+'/');
+server.listen(port, ip_address);
+server.on('listening', function() {
+	console.log('Server running at '+ip_address+':'+port+'/');
+});
+
